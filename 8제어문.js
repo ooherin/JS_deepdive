@@ -41,7 +41,7 @@ switch(month){
         console.log('날짜를 잘못 입력했습니다!');}
 console.log(days);
 
-//반복문 
+///반복문 
 //for문 : 초등학교 반 만들기
 for(let i = 1; i < 7 ; i++){
     for(let j = 1; j < 9; j++){
