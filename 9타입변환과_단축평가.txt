@@ -1,8 +1,10 @@
 명시적 타입 변환: 개발자의 의도에 따라 타입을 변화시키는 것
 ex) x.toString()
+
 암묵적 타입 변환: 개발자의 의도와 상관없이 타입이 변환되는 것
 ex) let x = 10;
 let str = x + '';
+ß
 console.log(typeof str) //string  
 console.log(typeof x) //number
 --> 원래 값의 타입은 변경하지 않았다. x는 원시값이므로 변경할 수 없다. 
