@@ -1,0 +1,108 @@
+클로저는 함수와 그 함수가 선언된 렉시컬 환경과의 조합이다.
+렉시컬 환경은 자신의 '외부 렉시컬 환경에 대한 참조'를 통해 상위 렉시컬 환경과 연결된다.
+--> 스코프 체인이다.
+
+렉시컬 환경의 외부 렉시컬 환경에 대한 참조에 저장할 값, (상위 스코프를 무엇으로 할 것인가?)는 
+함수 정의가 평가되는 시점(실행전) 에 결정됨.
+
+함수 객체의 내부 슬롯[[Environment]]
+함수는 내부 슬롯[[Environment]]에 자신의 상위 스코프의 참조를 저장
+함수 객체는 이 슬롯에 저장한 상위 스코프를 자신이 존재하는 한 기억함
+
+클로저 : 외부 함수보다 중첩 함수가 더 오래 유지되는 경우 중첩 함수는 
+이미 종료한 외부 함수의 변수를 참조할 수 있다. 이 중첩함수를 클로저라 한다.
+
+클로저는 함수와 그 함수가 선언된 렉시컬 환경과의 조합이다.
+--> 함수가 선언된 렉시컬 환경은 그 함수가 정의된 위치의 스코프의 
+렉시컬 환경을 말한다.
+예제에서 foo, boo라는 함수는 전역 스코프에서 정의된 함수이므로,
+전역 스코프의 렉시컬환경을 저장한다.
+const x =1;
+function foo(){
+    const x =10;
+    bar();
+}
+function bar(){
+    console.log(x);
+}
+foo();
+bar();
+
+클로저는 
+1. 중첩함수가 상위 스코프의 식별자를 참조하고
+2. 중첩함수가 외부 함수보다 더 오래 유지되는 경우에 한정한다. 
+
+클로저의 활용
+클로저는 상태를 안전하게 변경하고 유지하기 위해 사용한다.
+상태를 안전하게 은닉하고 특정 함수에게만 상태 변경을 허용한다. 
+
+클로저의 조건
+1. 전역 변수가 되면 누구나 접근 가능. 따라서 지역 변수로 저장되야 함.
+2. 상태를 안전하게 저장해야함.(초기화x)
+반환값을 한번더 함수로 감싸줌.
+const increase = function(){
+    let num = 0;
+    return function(){
+        return num++;  //반환값을 줄 때 익명함수를 자동 실행. 
+    }
+}
+console.log(increase()); //1
+
+증가, 감소가 가능한 counter클로저 함수
+const increase = function(){
+  let num = 0 ;
+    return function(){
+      return ++num;
+    }
+}();
+console.log(increase());
+console.log(increase());
+console.log(increase());
+
+const decrease = function(){
+  let num = 0; 
+  return function(){
+    return num > 0 ? --num : 0;
+  }
+}();
+console.log(decrease());
+console.log(decrease());
+
+
+const counter = (function(){
+  let num = 0;
+  return {
+    increase(){
+      return ++num;
+    },
+    decrease(){
+      return num > 0? --num : 0;
+    }
+  };
+}());
+console.log(counter.increase());
+console.log(counter.decrease());
+console.log(counter.increase());
+console.log(counter.increase());
+
+
+increase와 decrease를 보조함수로 갖는 고차함수
+를 반환한다.
+둘은 연동된다.
+const counter = (function(){
+  let counter = 0;
+  return function(aux){
+    counter = aux(counter);
+    return counter;
+  };
+}());
+
+function increase(n){
+  return n++;
+}
+function decrease(n){
+  return n--;
+}
+console.log(counter(increase));
+console.log(counter(increase));
+console.log(counter(decrease));
