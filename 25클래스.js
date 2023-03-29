@@ -68,6 +68,7 @@ console.log(derived3);
 //4. 자식클래스의 super를 호출하기전 this를 참조할수 없다.
 //5. super는 반드시 자식클래스의 constructor에서만 호출이 가능하다.
 
+
 //super참조
 //메서드 내에서 super를 참조하면 수퍼클래스의 메서드를 참조할 수 있다.
 class Base5 {
@@ -87,3 +88,15 @@ class Derived5 extends Base5 {
 const derived5 = new Derived5('rin');
 console.log(derived5.sayHi());
 //hi.my name is rin.How are you doing?
+
+//표준빌트인 생성자 함수 확장(p.466)
+class MyArray extends Array{
+    uniq(){
+        return this.filter((el,idx,self)=>self.indexOf(el) === idx )}
+    average(){
+        return this.reduce((acc,cur)=>acc+cur,0)/this.length;
+    }
+}
+const myarray = new MyArray(1,1,2,3);
+console.log(myarray.uniq());//MyArray(3) [ 1, 2, 3 ]
+console.log(myarray.average()); //1.75
