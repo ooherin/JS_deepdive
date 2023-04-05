@@ -1,0 +1,74 @@
+//이터러블만 스프레드 문법을 사용할 수 있다.
+//이터러은 Array,string, set,map, DOM컬렉션 등이다.
+
+//함수의 호출문에서 인수 목록을 사용하는 경우
+const arr = [1,2,3,4,5];
+console.log(Math.max(arr)); //NaN
+//다음과 같이 스프레드로 배열형태를 제거해야한다.
+Math.max(...arr);
+
+//스프레드 문법은 Rest파라미터와 형태가 동일하다(...)
+//그러나 완전 반대의 개념이다.
+//Rest 파라미터 : 함수에 전달된 인수들의 목록을 '배열'로 전달받기 위해 매개변수 앞에
+//...을 붙이는 것
+//스프레드문법 : 배열과 같은 이터러블을 개별 값의 목록으로 펼치는 것([]배열형태 제거)
+
+//배열 리터널 내부에서 사용하는 경우
+
+//1. concat : 배열 합치는 메소드
+const arr1 = [1,2].concat([3,4]);
+console.log(arr1); //[1,2,3,4]
+//스프레드 문법을 사용하는 경우
+const arr2 = [...[1,2],...[3,4]];
+console.log(arr2);//[ 1, 2, 3, 4 ]
+
+//2. splice : 어떤 배열의 중간에 다른 요소 삭제, 삽입
+const arr3 = [1,2];
+const arr4 = [3,4];
+arr3.splice(1,0,arr4);
+console.log(arr3);//[ 1, [ 3, 4 ], 2 ]
+//[]자체가 삽입되기 때문에 이땐 스프레드 문법이 더 편하다.
+arr3.splice(2,0,...arr4);
+console.log(arr3);//[ 1, 2, 3, 4 ]
+
+//3. slice : 배열을 복사하는 메소드이다. 
+const origin = [1,2,3];
+const copy = origin.slice();
+//스프레드 문법을 사용해서 복사도 가능하다.
+const copy1 = [...origin];
+console.log(copy,copy1)//[ 1, 2, 3 ] [ 1, 2, 3 ]
+
+//4. 이터러블을 배열로 반환
+//(배열이 아닌)이터러블을 배열로 반환하려면 Function.prototype.apply 또는 
+//Function.prototype.call을 써야 한다.
+//스프레드 문법을 사용하면 쉽게 이터러블을 배열로 바꿀수 있다.
+function sum(){
+    return [...arguments].reduce((acc,cur)=> acc+cur,0);
+}
+console.log(sum(1,2,3)); //6
+
+//인수를 사용해야 하므로 rest파라미터를 사용해도 된다.
+const sum1 = (...arg) => reduce((acc,cur)=>acc+cur);
+
+//스프레드 문법은 이터러블만 대상이므로, 유사배열 객체는 사용이 불가능하다. 
+//대신 array.from을 사용한다.
+const arrayLike = {
+    0 : '1',
+    1 : '2',
+    length :2 ,
+}
+const arr5 = [...arrayLike];
+//arrayLike is not iterable error
+Array.from(arrayLike);
+//[1,2]
+
+//객체 리터럴 내부에서 사용하는 경우
+//원래 스프레드는 일반객체에서 사용이 불가능하나, 스프레드 프로퍼티 제안에서는 객체를 스프레드로 복사할수 있다
+const obj =  {x:1, y:2};
+const copyObj = {...obj};
+console.log(copyObj);//{ x: 1, y: 2 }
+console.log(copyObj===copy); //false
+//즉, 스프레드로 일반객체를 복사할 수 있다.
+//원래는 Object.assign를 통해 여러 객체를 병합하거나 프로퍼티를 변경, 추가했다.
+const merged = Object.assign({},{x:1,y:2},{y:10,z:4});
+console.log(merged); //{x:1,y:10,z:4}
