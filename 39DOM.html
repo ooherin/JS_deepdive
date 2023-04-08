@@ -1,0 +1,49 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+ </head>
+ <body>
+    <ul id="fruits">
+        <li id="banana">Apple</li>
+        <li id="banana">banana</li>
+        <li id="banana">orange</li>
+    </ul>
+    <script>
+        //getElementById에 해당하는 요소가 없으면 null을 반환한다.
+        const $idEle = document.getElementById('banana');
+        $idEle.style.color = 'red';
+        const $tagEle = document.getElementsByTagName('li');
+        [...$tagEle].forEach(elem => elem.style.color= 'yellow');
+
+        const $fruits = document.getElementById('fruits');
+        const $lisFromFruits = $fruits.getElementsByTagName('li');
+        console.log($lisFromFruits);
+        
+        //Class를 이용한 노드취득
+        //모든 요소들을 탐색하여 HTMLCollection 객체를 반환한다.
+
+        //querySelectorAll를 이용한 요소취득
+        //여러 노드를 탐색하여 DOM컬렉션 객체인 NodeList객체를 반환한다.
+        //NodeList는 유사배열객체면서 이터러블이다.
+
+        //Element.matches : 특정 요소 노드를 취득할 수 있는지 확인
+        const $apple = document.querySelector('.apple');
+        console.log($apple.matches('#fruits>li.apple')); //true
+
+        //HTMLCollection과 NodeList
+        [...$elem].forEach(elem=> elem.className = 'blue');
+        //노드 객체의 상태 변경과 상관없이 안전하게 DOM컬렉션을 사용하려면 
+        //HTMLCollection이나 NodeList객체를 배열로 변환하여 사용을 권장.
+        //=> 스프레드 문법이나 Array.from메서드를 사용하면 쉽게 배열로 바꿀 수 있다.
+
+        
+
+
+
+    </script>
+ </body>
+ </html>

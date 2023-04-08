@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="user" type="text" value="ungmo1">
+    <input id="user2" type="text" value="ungmo2">
+    <!--dataset-->
+    <ul class="users">
+        <li id="1" data-userid="1234" data-role="admin">Lee</li>
+        <li id="2" data-userid="5678" data-role="subscriber">Kim</li>
+    </ul> 
+    <script>
+        const $input = document.getElementById('user');
+        const inputValue = $input.getAttribute('value');
+        //value의 값을 가져오기
+        console.log(inputValue);
+        //초기상태의 value값을 변경한다.
+        $input.setAttribute('value','candy');
+        console.log($input.getAttribute('value' ))
+
+        //Element.hasAttribute(어트리뷰트 이름) : HTML 어트리뷰트가 있는지 확인
+        //Element.removeAttribute(어트리뷰트 이름): 해당 노드에서 해당 어트리뷰트 삭제
+
+        const $input2 = document.getElementById('user2');
+        //사용자가 input2에 입력할때마다 input요소의 최신값을 취득한다.
+        //value프로퍼티 값은 사용자의 입력에 의해 동적으로 변경된다.
+        $input2.oninput = () => {
+            console.log('value프로퍼티 값',$input2.value)};
+        //getAttribute로 취득한 HTML어트리뷰트 값, 초기 상태 값은 변하지 않고 유지 된다.
+        console.log('value어트리뷰트 값',$input2.getAttribute('value'));
+
+        //HTML어트리뷰트는 HTML의 초기 상태 값을 관리하고, DOM프로퍼티는 사용자의 입력에 의해
+        //변경되는 최신 상태를 관리한다.
+
+        //input요소의 사용자 입력에 의한 상태 변화는 value프로퍼티가,.
+        //checkbox요소의 사용자의 입력에 의한 상태 변화는 checked프로퍼티가 관리..
+        //모든 프로퍼티가 관리하는 것은 아니고 사용자의 입력과 관계된 프로퍼티만 해당한다.
+
+        //data어트리뷰트와 dataset프로퍼티
+        //html에서 사용자 정의 어트리뷰트와 자바스크립트간에 데이터를 교환할 수 있다.
+        
+        const users = [document.querySelector('.users').children];
+        const user = users.find(user=>user.dataset.userid === '1234');
+        console.log(user.dataset.role);
+
+    </script>
+</body>
+</html>
