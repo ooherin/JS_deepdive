@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="fruits">
+        <li id="apple">apple</li>
+        <li id="banana">banana</li>
+        <li id="orange">orange</li>
+    </ul>
+    <script>
+        const $fruits = document.getElementById('fruits');
+        $fruits.addEventListener('click', e=>{
+            console.log(`이벤트 단계 : ${e.eventPhase}`);
+            //3 : 버블링 단계
+            console.log(`이벤트 단계 : ${e.target}`);
+            console.log(`이벤트 단계 : ${e.currentTarget}`);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #fruits{
+            display : flex;
+            list-style-type: none;
+            padding : 0;
+        }
+        #fruits li {
+            width : 100px;
+            cursor : pointer;
+        }
+        #fruits .active{
+            color:red;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul id="fruits">
+            <li id="apple">apple</li>
+            <li id="banana">banana</li>
+            <li id="orange">orange</li>
+        </ul>
+    </nav>
+    <div>선택된 네이게이션 아이템 : <em class="msg">apple</em></div>
+    <script>
+        const $fruits= document.getElementById('fruits');
+        const $msg = document.querySelector('.msg');
+        function activate({target}){
+            //이벤트를 발생시킨 요소가 ul#fruits의 자식요소가 아니라면 무시한다.
+            if(!target.matches('#fruits>li'))return;
+            //fruits의 하위요소들이($fruits)가 target(클릭된 요소)라면 toggle로
+            //classList가 추가된다. 
+            [...$fruits.children].forEach($fruits => {
+                $fruits.classList.toggle('active',$fruits === target);
+                $msg.textContent = target.id;
+            });
+        }
+        //이벤트 위임 ; 상위 요소는 하위 요소의 이벤트를 캐치할 수도 있다. 
+        $fruits.onclick = activate;
+    </script>
+</body>
+</html>

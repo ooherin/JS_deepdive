@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="sayHi('Lee')">Click me!</button>
+    <button id="btn2"> Click me!</button>
+    <button id="btn3">addEventListner메서드 click!</button>
+    <script>
+        //1. 이벤트 핸들러 어트리뷰트 방식
+        function sayHi(name){
+            console.log(`Hi ${name}`)
+        }
+        //2. 이벤트 핸들러 프로퍼티 방식
+        const $button2 = document.querySelector('#btn2');
+        //이벤트 핸들러 프로퍼티에 이벤트 핸들러를 바인딩
+        //이벤트 타깃, 이벤트 타입(onclick),이벤트 핸들러(onclick)을 지정해야함
+        //이벤트 핸들러 프로퍼티 하나에 하나의 핸들러만 등록 가능
+        $button2.onclick = function(){
+            console.log('button click');
+        };
+        //첫번째로 바인딩된 함수는 실행되지 않는다.
+        $button2.onclick=function(){
+            console.log('button click! second only execuete!')
+        }
+        //이벤트 핸들러 프로퍼티 제거
+        $button2.onclick = null;
+
+        //3. addEventListner메서드 방식
+        const $button3 = document.querySelector('#btn3');
+        $button3.addEventListener('click',function(){
+            console.log('first button click!');
+        })
+        //addEventListner는 하나 이상의 이벤트핸들러를 등록할 수 있다.
+
+        //다음과 같이 함수를 넣을 수도 있다.
+        //기존에 등록한 addEventListner와 같이 동작한다. 
+        const handleClick = () => console.log('second button click!');
+        $button3.addEventListener('click',handleClick);
+        //이벤트 핸들러 제거
+        //addEventListner와 같은 방식으로 해야 제거되며, 무명함수는 제거 불가
+        $button3.removeEventListener('click',handleClick);
+   </script> 
+</body>
+</html>
+<!--이벤트 핸들러  : 이벤트가 발생했을 때 브라우저에 호출을 위임한 함수다.
+이벤트가 발생했을때 브라우저에게 이벤트 핸들러의 호출을 위힘하는 것을 이벤트 핸들러
+등록이라고 하는데, 총 3가지 방법이 있다.-->
+<!--이벤트 핸들러를 등록할때는 콜백함수와 마찬가지로 함수 참조를 등록해야 브라우저가 이벤트 핸들러
+를 호출할수 있다. 이벤트 핸들러 어트리뷰트 값은 사실 암묵적으로 생성된 이벤트 핸들러(onclick)
+의 함수 몸체를 의미한다.
+js에서는 지양하는 방법이나, react같은 component based development에서는 이벤트 핸들러
+어트리뷰트 방식으로 이벤트를 처리한다.-->
