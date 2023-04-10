@@ -9,20 +9,24 @@
   </head>
   <body>
     <label>User name<input type="text" /></label>
+    <button>전송</button>
     <em class="message"></em>
     <script>
       const MIN_USER_NAME_LENGTH = 5;
       const $input = document.querySelector("input[type=text]");
       const $msg = document.querySelector(".message");
-
+      const $btn = document.querySelector("button");
       const checkUserNameLength = (min) => {
         $msg.textContent =
           $input.value.length < min ? `이름은 ${min}자 이상 입력해주세요` : "";
       };
       //이벤트 핸들러 내부에서 함수를 호출하면서 인수를 전달한다.
-      $input.onblur = () => {
+      $btn.onclick = () => {
         checkUserNameLength(MIN_USER_NAME_LENGTH);
       };
+
+      //addEventListner에서는 함수 호출문이 아닌, 함수 자체를 등록해야 하므로 인수를 전달할 수 없다.
+      // $btn.addEventListener("click", checkUserNameLength(MIN_USER_NAME_LENGTH));
     </script>
   </body>
 </html>
