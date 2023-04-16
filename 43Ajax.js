@@ -26,6 +26,7 @@ console.log(typeof prettyJson, prettyJson);
 function filter(key, value) {
   return typeof value === "number" ? undefined : value;
 }
+
 //filter사용법 pretty와 비슷, 중간에 null대신 filter넣기
 const strfilteredObj = JSON.stringify(obj, filter, 2);
 console.log(typeof strfilteredObj, strfilteredObj);

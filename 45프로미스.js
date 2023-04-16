@@ -1,3 +1,6 @@
+//js는 비동기 처리를 위해 콜백함수를 사용하지만, 콜백 헬의 우려가 있어
+//비동기 처리를 위한 또다른 패턴으로 프로미스를 도입했다.
+
 //프로미스 생성
 // const promise = new Promise((resolve,reject)=>{
 //     if(/*비동기 처리 성공*/){
@@ -45,6 +48,9 @@ new Promise((resolve) => resolve("fulfilled")).then(
 //   console.log(e)
 // );
 //Error: rejected
+//catch 메서드를 모든 then 메서드를 호출한 이후에 호출하면
+//비동기 처리에서 발생한 에러 뿐만 아니라 then메서드에서 발생한 에러까지 모두 캐치할 수 있다.
+//에러처리는 then(두번째 메소드)보다 catch메서드에서 하는 것이 좋다.
 
 //3. Promise.prototype.finally
 //finally의 메서드는 한 개의 콜백 함수를 인수로 전달받는다.
@@ -160,3 +166,30 @@ Promise.all(
 //Promise.race
 //all과 달리 하나라도 fulfilled되면 그 프로미스의 처리 결과를 resolve하는
 //새로운 프로미스를 반환한다.
+Promise.race([
+  new Promise((resolve) => setTimeout(() => resolve(1), 3000)), //1
+  new Promise((resolve) => setTimeout(() => resolve(2), 2000)), //2
+  new Promise((resolve) => setTimeout(() => resolve(3), 1000)), //3
+])
+  .then(console.log) //3
+  .catch(console.log);
+
+//Promise.allSettled
+Promise.allSettled([
+  new Promise((resolve) => setTimeout(() => resolve(1), 2000)),
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("error")), 1000)
+  ),
+]).then(console.log);
+
+//마이크로태스크 큐
+setTimeout(() => console.log(1), 0);
+Promise.resolve()
+  .then(() => console.log(2))
+  .then(() => console.log(3));
+//2 3 1 순으로 출력
+//setTimeout은 태스크 큐에서 출력된다
+//프로미스의 콜백함수는 태스크 큐가 아닌 마이크로 태스크 큐에서 출력된다.
+//우선순위는 마이크로태스크 큐가 더 높다.
+
+
