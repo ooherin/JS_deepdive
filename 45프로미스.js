@@ -95,6 +95,7 @@ promiseGet(wrongUrl).then(
 promiseGet(wrongUrl)
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
+//error : 404
 
 //catch메서드를 모든 then메서드를 호출한 이후에 호출하면 비동기 처리에서 발생한 에러 rejected
 //에러 뿐만 아니라 then메서드 내부에서의 에러까지 모두 캐치 가능하다.
@@ -175,12 +176,18 @@ Promise.race([
   .catch(console.log);
 
 //Promise.allSettled
+//전달받은 프로미스가 모두 settled된 상태(resolve,reject) 가 되면 처리 결과를 배열로 반환한다.
 Promise.allSettled([
   new Promise((resolve) => setTimeout(() => resolve(1), 2000)),
   new Promise((_, reject) =>
     setTimeout(() => reject(new Error("error")), 1000)
   ),
 ]).then(console.log);
+//[{status : "fulfilled", value  :1},
+//{status : "rejected", reason : Error : Error}]
+
+//=> 결과는 status가 fulfilled면 value 프로퍼티를,
+//status가 rejected면 reason 프로퍼티를 갖는다
 
 //마이크로태스크 큐
 setTimeout(() => console.log(1), 0);
@@ -191,5 +198,52 @@ Promise.resolve()
 //setTimeout은 태스크 큐에서 출력된다
 //프로미스의 콜백함수는 태스크 큐가 아닌 마이크로 태스크 큐에서 출력된다.
 //우선순위는 마이크로태스크 큐가 더 높다.
+//그래서 위 예제에서는 promise가 먼저 실행된 후에 setTImeout이 실행되는 것이다.
 
+//fetch
+//HTTP 요청 전송 기능을 제공하는 클라이언트 사이드 Web API이다.
+//fetch는 XMLHttpRequest보다 사용법이  간단하고 프로미스를 지원하기 떄문에
+//비동기 처리를 위한 콜백 패턴의 단점에서 자유롭다.
+//fetch는 HTTP 응답을 나타내는 Response 객체를 래핑한 Promise 객체를 반환한다.
 
+//const promise = fetch(url [,option])
+
+fetch("https://jsonplaceholder.typicode.com/todos/1").then((response) =>
+  console.log(response)
+);
+
+//fetch는 json화 시켜야 한다.
+fetch("https://jsonplaceholder.typicode.com/todos/1")
+  .then((response) => response.json())
+  .then((json) => console.log(json));
+//{userId:1, id:1, title: ....};
+
+//fetch 함수를 사용할 떄는 에러 처리에 주의해야 한다.
+const wrongUrl1 = "https://jsonplaceholder.typicode.com/XXXX";
+fetch(wrongUrl1)
+  .then(() => console.log("ok"))
+  .catch(() => console.log("error"));
+//이때 결과는 error가 출력되는 것이 아닌 ok가 출력된다.
+//fetch함수가 반환하는 프로미스는 기본적으로 404 not Found error 나 500 Interval Server
+//Error같은 HTTP에러가 발행해도 에러를 reject하지 않고 불리언 타입의 ok상태를 false로 설정한
+//Response 객체를 resolve 한다. 오프라인 등의 네트워크 장애나 CORS 에러에 의해 요청이 완료되지 못한
+//경우에만 프로미스를 reject 한다.
+
+//따라서 다음과 같은 에러 처리가 필요하다.
+const wrongUrl2 = "https://jsonplaceholder.typicode.com/XXXX";
+fetch(wrongUrl2)
+  .then((response) => {
+    if (!response.ok) throw new Error(response.statusText);
+    return response.json();
+  })
+  .then((todo) => console.log(todo))
+  .catch((err) => console.log(err));
+//위에서 부적절한 url을 지정했기 때문에 404 not Found 에러가 발행한다. 이때
+//에러를 reject하지 않고 불리언 타입의 ok상태를 false로 설정한 Response 객체를
+//resove한다. response는 HTTP응답을 나타내는 Response 객체이다.
+
+//따라서 위와 같이 fetch 함수가 반환한 프로미스가 resolve한 불리언 타입의 ok 상태를
+//확인해 명시적으로 에러를 처리할 필요가 있다.
+
+//axios : 모든 HTTP 에러를 reject하는 프로미스를 반환한다.
+//모든 에러를 catch에서 처리할 수 있어서 편리하다.

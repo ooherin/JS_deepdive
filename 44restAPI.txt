@@ -1,0 +1,26 @@
+REST(Representational State Transfer)는 HTTP의 장점을 최대한 활용할 수 있는 
+아키텍처로서 REST를 소개했고  이 HTTP 프로토콜을 의도에 맞게 디자인하도록 유도하고 있다.
+REST의 기본 원칙을 성실히 지킨 서비스 디자인을 RESTful이라고 표현한다.
+
+REST API 의 구성
+1. 자원 : 자원 ,URI
+2. 행위 : 자원에 대한 행위, HTTP 요청 메서드
+3. 표현 : 자원에 대한 행위의 구체적 내용, 페이로드
+
+REST API의 설계 원칙 
+1. URI는 리소스를 표현하는데 집중한다.
+2. 행위에 대한 정의는 HTTP 요청 메서드를 통해 한다. 
+
+#good
+GET/todos/1
+
+#bad
+GET/ getTodos/1
+
+요청 메서드에는 5가지가 있다.
+1. GET  : 모든/특정 리소스 취득
+2. POST : 리소스 생성
+3. PUT  : 리소스의 전체  교체
+4. PATCH : 리소스의 일부 수정
+5. DELETE : 모든/특정 리소스 삭제
+
