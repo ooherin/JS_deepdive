@@ -44,8 +44,6 @@ request
   })
   .then((todos) => console.log(todos))
   .catch((err) => console.log(err));
-//{ userId: 1, title: 'Javascript', completed: false, id: 201 }
-
 //PATCH요청
 request
   .patch("https://jsonplaceholder.typicode.com/todos/1", {
@@ -57,9 +55,6 @@ request
   })
   .then((todos) => console.log(todos))
   .catch((err) => console.log(err));
-//{ userId: 1, id: 1, title: 'delectus aut autem', completed: true }
-//complted가 true 로 바뀜
-
 //DELETE 요청
 request
   .delete("https://jsonplaceholder.typicode.com/todos/1")
